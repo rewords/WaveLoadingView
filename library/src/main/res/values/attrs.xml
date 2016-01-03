@@ -5,6 +5,7 @@
         <attr name="mlv_borderWidth" format="dimension"/>
         <attr name="mlv_borderColor" format="color"/>
         <attr name="mlv_progressValue" format="integer"/>
+        <attr name="mlv_progressMax" format="integer"/>
         <attr name="mlv_shapeType" format="enum">
             <enum name="circle" value="0" />
             <enum name="square" value="1" />

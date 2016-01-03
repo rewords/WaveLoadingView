@@ -41,6 +41,7 @@ public class WaveLoadingView extends View {
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
     private static final float DEFAULT_WAVE_SHIFT_RATIO = 0.0f;
     private static final int DEFAULT_WAVE_PROGRESS_VALUE = 0;
+    private static final int DEFAULT_WAVE_PROGRESS_MAX_VALUE = 100;
     private static final int DEFAULT_WAVE_COLOR = Color.parseColor("#212121");
     private static final int DEFAULT_TITLE_COLOR = Color.parseColor("#212121");
     private static final float DEFAULT_BORDER_WIDTH = 0;
@@ -69,6 +70,7 @@ public class WaveLoadingView extends View {
     private float mWaterLevelRatio = 1f;
     private float mWaveShiftRatio = DEFAULT_WAVE_SHIFT_RATIO;
     private int mProgressValue = DEFAULT_WAVE_PROGRESS_VALUE;
+    private int mProgressMaxValue = DEFAULT_WAVE_PROGRESS_MAX_VALUE;
 
     // Object used to draw.
     // Shader containing repeated waves.
@@ -129,8 +131,10 @@ public class WaveLoadingView extends View {
         mAmplitudeRatio = (amplitudeRatioAttr > DEFAULT_AMPLITUDE_RATIO) ? DEFAULT_AMPLITUDE_RATIO : amplitudeRatioAttr;
 
         // Init Progress
-        mProgressValue = attributes.getInteger(R.styleable.WaveLoadingView_mlv_progressValue, DEFAULT_WAVE_PROGRESS_VALUE);
-        setProgressValue(mProgressValue);
+        int progressMax = attributes.getInteger(R.styleable.WaveLoadingView_mlv_progressMax, DEFAULT_WAVE_PROGRESS_MAX_VALUE);
+        setProgressMaxValue(progressMax);
+        int progressValue = attributes.getInteger(R.styleable.WaveLoadingView_mlv_progressValue, DEFAULT_WAVE_PROGRESS_VALUE);
+        setProgressValue(progressValue);
 
         // Init Border
         mBorderPaint = new Paint();
@@ -393,8 +397,14 @@ public class WaveLoadingView extends View {
      * @param progress Default to be 50.
      */
     public void setProgressValue(int progress) {
-        mProgressValue = progress;
-        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) progress / 100));
+        if (progress < 0)
+            mProgressValue = 0;
+        else if (progress > mProgressMaxValue)
+            mProgressValue = mProgressMaxValue;
+        else
+            mProgressValue = progress;
+
+        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) progress / mProgressMaxValue));
         waterLevelAnim.setDuration(1000);
         waterLevelAnim.setInterpolator(new DecelerateInterpolator());
         AnimatorSet animatorSetProgress = new AnimatorSet();
@@ -404,6 +414,14 @@ public class WaveLoadingView extends View {
 
     public int getProgressValue() {
         return mProgressValue;
+    }
+
+    public void setProgressMaxValue(int max) {
+        mProgressMaxValue = max;
+    }
+
+    public int getProgressMaxValue() {
+        return mProgressMaxValue;
     }
 
     public void setWaveShiftRatio(float waveShiftRatio) {
