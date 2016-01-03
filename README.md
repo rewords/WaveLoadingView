@@ -22,11 +22,16 @@
 Include the library as a local library project or add the dependency in your build.gradle.
 
 ```groovy
-dependencies {
-    compile 'me.itangqi.waveloadingview:library:0.1.4'
-    // I have uploaded v0.1.4 on 2015-12-17, if it doesn't take effect or your 
-    // gradle cannot find it in maven central, you may try v0.1.2. 
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
 }
+dependencies {
+	compile 'com.github.rewords:WaveLoadingView:'
+}	
+	
 ```	
 Or
 
@@ -110,6 +115,8 @@ Do what you what :)
 
 - Fix the bug which `setProgressValue() doesn't change the value of mProgressValue`
 - Fix attributes' setters
+- Changed progress direction
+- Added possibility to set progress max 
 
 ### 0.1.3
 
