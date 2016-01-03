@@ -404,7 +404,7 @@ public class WaveLoadingView extends View {
         else
             mProgressValue = progress;
 
-        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) progress / mProgressMaxValue));
+        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) mProgressValue / mProgressMaxValue));
         waterLevelAnim.setDuration(1000);
         waterLevelAnim.setInterpolator(new DecelerateInterpolator());
         AnimatorSet animatorSetProgress = new AnimatorSet();
