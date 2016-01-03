@@ -22,11 +22,16 @@
 Include the library as a local library project or add the dependency in your build.gradle.
 
 ```groovy
-dependencies {
-    compile 'me.itangqi.waveloadingview:library:0.1.4'
-    // I have uploaded v0.1.4 on 2015-12-17, if it doesn't take effect or your 
-    // gradle cannot find it in maven central, you may try v0.1.2. 
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
 }
+dependencies {
+	compile 'com.github.rewords:WaveLoadingView:'
+}	
+	
 ```	
 Or
 
@@ -44,6 +49,7 @@ Include the WaveLoadingView widget in your layout. And you can customize it like
     app:mlv_borderColor="@color/colorAccent"
     app:mlv_borderWidth="3dp"
     app:mlv_progressValue="40"
+    app:mlv_progressMax="100"
     app:mlv_shapeType="square"
     app:mlv_titleBottom="Bottom Title"
     app:mlv_titleBottomColor="@color/colorPrimaryText"
@@ -69,6 +75,7 @@ WaveLoadingView mWaveLoadingView = (WaveLoadingView) findViewById(R.id.waveLoadi
 	mWaveLoadingView.setTopTitle("Top Title");
 	mWaveLoadingView.setCenterTitleColor(Color.GRAY);
 	mWaveLoadingView.setBottomTitleSize(18);
+	mWaveLoadingView.setProgressMax(100);
 	mWaveLoadingView.setProgressValue(80);
 	mWaveLoadingView.setBorderWidth(10);
 	mWaveLoadingView.setAmplitudeRatio(60);
@@ -84,7 +91,8 @@ Do what you what :)
 |:---:|:---:|:---:|
 | mlv_borderWidth | dimension |set border width, default is 0
 | mlv_borderColor | color |set border color
-| mlv_progressValue | integer |set progress value, default is 50
+| mlv_progressMax | integer |set progress max value, default is 100
+| mlv_progressValue | integer |set progress value, default is 0
 | mlv_shapeType | enum |set shape type, default is circle
 | mlv_waveColor | color |set wave color
 | mlv_waveAmplitude | float |set wave amplitude
@@ -107,6 +115,8 @@ Do what you what :)
 
 - Fix the bug which `setProgressValue() doesn't change the value of mProgressValue`
 - Fix attributes' setters
+- Changed progress direction
+- Added possibility to set progress max 
 
 ### 0.1.3
 
