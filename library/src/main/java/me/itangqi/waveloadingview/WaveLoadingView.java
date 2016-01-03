@@ -40,7 +40,7 @@ public class WaveLoadingView extends View {
     private static final float DEFAULT_WATER_LEVEL_RATIO = 0.5f;
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
     private static final float DEFAULT_WAVE_SHIFT_RATIO = 0.0f;
-    private static final int DEFAULT_WAVE_PROGRESS_VALUE = 50;
+    private static final int DEFAULT_WAVE_PROGRESS_VALUE = 0;
     private static final int DEFAULT_WAVE_COLOR = Color.parseColor("#212121");
     private static final int DEFAULT_TITLE_COLOR = Color.parseColor("#212121");
     private static final float DEFAULT_BORDER_WIDTH = 0;
@@ -394,7 +394,7 @@ public class WaveLoadingView extends View {
      */
     public void setProgressValue(int progress) {
         mProgressValue = progress;
-        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, 1f - ((float) progress / 100));
+        ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) progress / 100));
         waterLevelAnim.setDuration(1000);
         waterLevelAnim.setInterpolator(new DecelerateInterpolator());
         AnimatorSet animatorSetProgress = new AnimatorSet();
