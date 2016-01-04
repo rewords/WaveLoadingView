@@ -50,6 +50,7 @@ public class WaveLoadingView extends View {
     private static final float DEFAULT_TITLE_TOP_SIZE = 18.0f;
     private static final float DEFAULT_TITLE_CENTER_SIZE = 22.0f;
     private static final float DEFAULT_TITLE_BOTTOM_SIZE = 18.0f;
+    private static final int DEFAULT_PROGRESS_ANIMATION_DURATION = 1000; //millis
 
     public enum ShapeType {
         CIRCLE,
@@ -71,6 +72,7 @@ public class WaveLoadingView extends View {
     private float mWaveShiftRatio = DEFAULT_WAVE_SHIFT_RATIO;
     private int mProgressValue = DEFAULT_WAVE_PROGRESS_VALUE;
     private int mProgressMaxValue = DEFAULT_WAVE_PROGRESS_MAX_VALUE;
+    private int mProgressAnimationDuration = DEFAULT_PROGRESS_ANIMATION_DURATION;
 
     // Object used to draw.
     // Shader containing repeated waves.
@@ -135,6 +137,10 @@ public class WaveLoadingView extends View {
         setProgressMaxValue(progressMax);
         int progressValue = attributes.getInteger(R.styleable.WaveLoadingView_mlv_progressValue, DEFAULT_WAVE_PROGRESS_VALUE);
         setProgressValue(progressValue);
+
+        //Init Animation Timing
+        int progressAnim = attributes.getInteger(R.styleable.WaveLoadingView_mlv_progressAnimDuration, DEFAULT_PROGRESS_ANIMATION_DURATION);
+        setProgressAnimationDuration(progressAnim);
 
         // Init Border
         mBorderPaint = new Paint();
@@ -405,8 +411,8 @@ public class WaveLoadingView extends View {
             mProgressValue = progress;
 
         ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, ((float) mProgressValue / mProgressMaxValue));
-        waterLevelAnim.setDuration(1000);
-        waterLevelAnim.setInterpolator(new DecelerateInterpolator());
+        waterLevelAnim.setDuration(mProgressAnimationDuration);
+        waterLevelAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         AnimatorSet animatorSetProgress = new AnimatorSet();
         animatorSetProgress.play(waterLevelAnim);
         animatorSetProgress.start();
@@ -422,6 +428,14 @@ public class WaveLoadingView extends View {
 
     public int getProgressMaxValue() {
         return mProgressMaxValue;
+    }
+
+    public int getProgressAnimationDuration() {
+        return mProgressAnimationDuration;
+    }
+
+    public void setProgressAnimationDuration(int millis) {
+        mProgressAnimationDuration = millis < 0 ? 0 : millis;
     }
 
     public void setWaveShiftRatio(float waveShiftRatio) {

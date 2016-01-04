@@ -10,6 +10,7 @@
             <enum name="circle" value="0" />
             <enum name="square" value="1" />
         </attr>
+        <attr name="mlv_progressAnimDuration" format="integer"/>
         <attr name="mlv_waveColor" format="color"/>
         <attr name="mlv_waveAmplitude" format="float"/>
         <attr name="mlv_titleTopSize" format="dimension"/>
